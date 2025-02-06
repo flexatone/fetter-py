@@ -16,7 +16,9 @@
 ## System-wide Python package discovery, validation, and allow-listing.
 
 
-The `fetter` command-line tool scans and validates Python packages across virtual environments or entire systems, ensuring packages conform to specified requirements or lock files. It identifies unapproved or vulnerable packages, supports continuous integration through 'pre-commit', and offers excellent performance thanks to a multi-threaded Rust implementation.
+The `fetter` command-line tool scans and validates Python packages across virtual environments or entire systems, ensuring packages conform to specified requirements or lock files. It identifies unapproved or vulnerable packages, supports continuous integration with 'pre-commit', and offers excellent performance thanks to a multi-threaded Rust implementation.
+
+Additionally, `fetter` can configure a virtual environment to validate package alignment before every Python run, enforcing a locked and reproducible development environment.
 
 
 * 🔎 System Scanning: Finds Python packages across system environments.
@@ -212,6 +214,8 @@ repos:
 - `--exe, -e <FILES>`: Provide zero or more executable paths to derive site package locations. If omitted, all discoverable executables will be used.
 - `--quiet, -q`: Disable logging and terminal animation.
 - `--user_site`: Force inclusion of the user site-packages, even if it is not activated. Defaults to only including if the interpreter is configured to use it.
+- `--cache-duration, -c`: Create or use a cache that expires after the provided number of seconds. A duration of zero will disable caching.
+- `--log, -l`: Enable logging output.
 
 ### Command: `fetter scan`
 
@@ -270,6 +274,24 @@ repos:
   - `exit`: Return an exit code (0 for success, customizable for errors).
     - `--code, -c <INT>`: Specify the error code (default: `3`).
 
+### Command: `fetter site-install`
+
+- Description: Install in site-packages automatic validation checks on every Python run.
+- Options
+  - `--bound, -b <FILE>`: Path or URL to the file containing bound requirements.
+  - `--bound-options <OPTIONS>`: Names of additional optional dependency groups.
+  - `--subset`: Allow the observed packages to be a subset of the bound requirements.
+  - `--superset`: Allow the observed packages to be a superset of the bound requirements.
+- Subcommands
+  - `warn`: Show validation results in the terminal.
+  - `exit`: Return an exit code (0 for success, customizable for errors).
+    - `--code, -c <INT>`: Specify the error code (default: `3`).
+
+
+### Command: `fetter site-uninstall`
+
+- Description: Uninstall from site-packages automatic validation checks.
+
 ### Command: `fetter audit`
 
 - Description: Search for security vulnerabilities in packages via the OSV DB.
@@ -327,6 +349,19 @@ repos:
 
 
 ## What is New in Fetter
+
+### 1.3.0
+
+Implementened `site-install` to permit installation of package validation on every Python run.
+
+Implementened `site-uninstall` to remove installation of package validation.
+
+Added `log` option to display logging information.
+
+Added support for `poetry`-style dependency specifications with `^` and `~`.
+
+Usage of `-S` in sub-processed Python calls for better isolation and performance.
+
 
 ### 1.2.0
 
