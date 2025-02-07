@@ -186,8 +186,7 @@ repos:
   rev: v1.3.0
   hooks:
     - id: fetter-validate
-      args: [--bound, {FILE}, --superset, --subset]
-
+      args: [--bound, {FILE}, --superset, --subset, display, --code, 3]
 ```
 
 
@@ -212,7 +211,7 @@ repos:
 ### Global Options
 
 - `--exe, -e <FILES>`: Provide zero or more executable paths to derive site package locations. If omitted, all discoverable executables will be used.
-- `--quiet, -q`: Disable logging and terminal animation.
+- `--quiet, -q`: Disable terminal animations.
 - `--user_site`: Force inclusion of the user site-packages, even if it is not activated. Defaults to only including if the interpreter is configured to use it.
 - `--cache-duration, -c`: Create or use a cache that expires after the provided number of seconds. A duration of zero will disable caching.
 - `--log, -l`: Enable logging output.
@@ -267,6 +266,7 @@ repos:
   - `--superset`: Allow the observed packages to be a superset of the bound requirements.
 - Subcommands
   - `display`: Show validation results in the terminal.
+    - `--code, -c <INT>`: Optionally specify and exit with an error code (default: `3`).
   - `json`: Print validation results in JSON format.
   - `write`: Save validation results to a file.
     - `--output, -o <FILE>`: Specify the output file.
@@ -350,11 +350,18 @@ repos:
 
 ## What is New in Fetter
 
+### 1.4.0
+
+Improved `site-install` to run in the same parent Python process.
+
+Added `code` option to `display` to only optionally return an error code.
+
+
 ### 1.3.0
 
-Implementened `site-install` to permit installation of package validation on every Python run.
+Implemented `site-install` to permit installation of package validation on every Python run.
 
-Implementened `site-uninstall` to remove installation of package validation.
+Implemented `site-uninstall` to remove installation of package validation.
 
 Added `log` option to display logging information.
 
